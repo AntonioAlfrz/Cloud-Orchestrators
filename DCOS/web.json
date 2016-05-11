@@ -1,0 +1,41 @@
+{
+  "id": "/web",
+  "cmd": null,
+  "cpus": 0.5,
+  "mem": 128,
+  "disk": 0,
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "volumes": [],
+    "docker": {
+      "image": "aalferez/nomad_web:2",
+      "network": "BRIDGE",
+      "portMappings": [
+        {
+          "containerPort": 0,
+          "hostPort": 0,
+          "servicePort": 10002,
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "1.2.3.4:5000"
+          }
+        }
+      ],
+      "privileged": false,
+      "parameters": [],
+      "forcePullImage": true
+    }
+  },
+  "env": {
+    "APIURL": "1.1.1.1:5001",
+    "MONGOURL": "1.1.1.1:5002"
+  },
+  "portDefinitions": [
+    {
+      "port": 10002,
+      "protocol": "tcp",
+      "labels": {}
+    }
+  ]
+}

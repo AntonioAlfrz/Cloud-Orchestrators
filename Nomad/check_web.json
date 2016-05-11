@@ -1,0 +1,9 @@
+{
+  "check": {
+  "id": "UI_Check",
+  "name": "UI on port 8500",
+  "http": "http://10.0.0.5:8500/ui",
+  "interval": "10s",
+  "timeout": "1s"
+  }
+}

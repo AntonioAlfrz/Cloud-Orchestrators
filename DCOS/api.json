@@ -1,0 +1,45 @@
+{
+  "id": "/api",
+  "cmd": null,
+  "cpus": 0.5,
+  "mem": 128,
+  "disk": 0,
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "volumes": [],
+    "docker": {
+      "image": "aalferez/nomad_api:2",
+      "network": "BRIDGE",
+      "portMappings": [
+        {
+          "containerPort": 0,
+          "hostPort": 0,
+          "servicePort": 10000,
+          "protocol": "tcp",
+          "name": "api",
+          "labels": {
+            "VIP_0": "1.1.1.1:5001"
+          }
+        }
+      ],
+      "privileged": false,
+      "parameters": [],
+      "forcePullImage": true
+    }
+  },
+  "env": {
+    "AZURE_STORAGE_ACCESS_KEY": "6VyhZ2Mqt1kgGjJEFlh7hqPd/v1AEDCX+9/tN1IoOsZsX4VmZC8C8dwoaCGPjwRl6bGSRNQiXpfnwCxK4IGhjg==",
+    "AZURE_STORAGE_ACCOUNT": "cdps"
+  },
+  "portDefinitions": [
+    {
+      "port": 10000,
+      "protocol": "tcp",
+      "name": "api",
+      "labels": {
+        "VIP_0": "1.1.1.1:5001"
+      }
+    }
+  ]
+}

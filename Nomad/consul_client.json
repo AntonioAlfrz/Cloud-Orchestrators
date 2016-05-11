@@ -1,0 +1,8 @@
+{
+  "datacenter": "Azure",
+  "node_name": "Client-X",
+  "bind_addr": "10.0.0.4",
+  "client_addr": "127.0.0.1",
+  "data_dir": "/tmp/consul",
+  "leave_on_terminate": true
+}
