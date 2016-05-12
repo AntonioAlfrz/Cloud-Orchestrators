@@ -346,7 +346,10 @@
             "name": "[variables('masterAvailabilitySet')]",
             "apiVersion": "[variables('apiVersionDefault')]",
             "location": "[resourceGroup().location]",
-            "properties": {}
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            }
         },
         {
             "type": "Microsoft.Network/publicIPAddresses",

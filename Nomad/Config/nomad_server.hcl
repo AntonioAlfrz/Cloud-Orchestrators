@@ -3,7 +3,7 @@ region="Europe"
 datacenter="Azure"
 name="Server-X"
 # Configuración
-#bind_addr = "10.0.0.5"
+bind_addr = ""
 data_dir = "/tmp/nomad"
 # Servidor
 leave_on_interrupt = true
@@ -12,5 +12,5 @@ server {
     enabled = true
     rejoin_after_leave = true
     bootstrap_expect = 2
-    
+
 }

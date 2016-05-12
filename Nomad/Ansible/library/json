@@ -4,11 +4,11 @@ from sys import argv
 
 script, filename = argv
 # Read
-with open(filename,'r') as data_file:    
+with open(filename,'r') as data_file:
     data = json.load(data_file)
-    
+
 # Change
-data["bind_addr"] = {{ ansible_default_ipv4 }}
+data["bind_addr"] = {{ ansible_default_ipv4.address }}
 
 # Write
 with open(filename, 'w') as f:

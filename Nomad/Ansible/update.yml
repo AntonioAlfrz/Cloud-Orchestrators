@@ -1,0 +1,27 @@
+---
+- hosts: all
+  remote_user: {{ansible_env.USER}}
+  tasks:
+  - copy:
+      src: ../Config/
+      dest:  {{ansible_env.HOME}}
+- hosts: master
+  remote_user: antonio
+  tasks:
+  - name: Update Nomad master configs
+    json_mod:
+      path: "nomad_server.json"
+      username: {{ansible__nodename}}
+  - name: Update Consul master configs
+    json_mod:
+      path: "consul_server.json"
+
+- hosts: clients
+  remote_user: antonio
+  tasks:
+  - name: Update Nomad clients configs
+    json_mod:
+      path: "nomad_client.json"
+  - name: Update Consul clients configs
+    json_mod:
+      path: "consul_client.json"

@@ -1,11 +1,11 @@
 {
   "datacenter": "Azure",
   "node_name": "Server-X",
-  "bind_addr": "10.0.0.5",
+  "bind_addr": "",
   "client_addr": "127.0.0.1",
   "data_dir": "/tmp/consul",
   "leave_on_terminate": true,
-  
+
   "bootstrap_expect": 2,
   "server": true,
   "ui": true,
