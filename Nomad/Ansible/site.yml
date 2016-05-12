@@ -1,0 +1,9 @@
+---
+
+- hosts: all # Hostname, Group or Pattern
+  remote_user: antonio
+  become: yes # sudo
+  roles:
+    - Docker
+    - Consul
+    - Nomad
