@@ -10,7 +10,7 @@ def main():
             url = dict(required=True),
             key = dict(required=True, choices=['node_name', 'name']),
             name = dict(required=True),
-            class = dict(required=False, choices=['Public', 'Private'])
+            node_class = dict(choices=['Public', 'Private'])
         )
     )
 
@@ -27,9 +27,9 @@ def main():
     data["bind_addr"] = module.params['url']
     data[key] = module.params['name']
 
-    if 'node_class' in data and module.params['class']:
-        data['node_class'] = module.params['class']
-        
+    if 'client' in data:
+        data['client']['node_class'] = module.params['node_class']
+
     # Write
     with open(filename, 'w') as f:
          json.dump(data, f)
