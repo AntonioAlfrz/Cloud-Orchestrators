@@ -1,13 +1,16 @@
 ---
-- hosts: all
-  remote_user: {{ansible_env.USER}}
-  tasks:
-  - copy:
-      src: ../Config/
-      dest:  {{ansible_env.HOME}}
+
 - hosts: master
   remote_user: antonio
   tasks:
+  - name: Copy Nomad server config
+    copy:
+      src: ../Config/nomad_server.json
+      dest:  {{ansible_env.HOME}}
+  - name: Copy Consul server config
+    copy:
+      src: ../Config/consul_server.json
+      dest:  {{ansible_env.HOME}}
   - name: Update Nomad master configs
     json_mod:
       path: "nomad_server.json"
@@ -19,6 +22,14 @@
 - hosts: clients
   remote_user: antonio
   tasks:
+  - name: Copy Nomad client config
+    copy:
+      src: ../Config/nomad_client.json
+      dest:  {{ansible_env.HOME}}
+  - name: Copy Consul client config
+    copy:
+      src: ../Config/consul_client.json
+      dest:  {{ansible_env.HOME}}
   - name: Update Nomad clients configs
     json_mod:
       path: "nomad_client.json"
