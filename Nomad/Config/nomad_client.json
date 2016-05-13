@@ -1,0 +1,15 @@
+{
+  "region": "Europe",
+  "datacenter": "Azure",
+  "name": "",
+
+  "bind_addr": "",
+  "data_dir": "/tmp/nomad",
+  "leave_on_interrupt": true,
+  "leave_on_terminate": true,
+  "client":{
+    "enabled": true,
+    "servers": ["nomad.service.consul:4647"],
+    "node_class": "Public"
+  }
+}

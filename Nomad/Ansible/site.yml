@@ -1,8 +1,9 @@
 ---
 
-- hosts: all # Hostname, Group or Pattern
+- name: Installing Nomad + Consul
+  hosts: all
   remote_user: antonio
-  become: yes # sudo
+  # become: yes # sudo
   roles:
     - Docker
     - Consul
