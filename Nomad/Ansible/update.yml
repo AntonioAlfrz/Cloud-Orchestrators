@@ -58,7 +58,7 @@
       url: "{{ ansible_default_ipv4.address }}"
       key: name
       name: "{{ ansible_nodename }}"
-      class: Public
+      node_class: Public
 
 - name: Update private nodes
   hosts: private
@@ -71,4 +71,4 @@
       url: "{{ ansible_default_ipv4.address }}"
       key: name
       name: "{{ ansible_nodename }}"
-      class: Private
+      node_class: Private
