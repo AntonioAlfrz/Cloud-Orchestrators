@@ -1,32 +1,33 @@
 ---
 
-- hosts: master
+- name: Update Configuration files
+  hosts: master
   remote_user: antonio
   tasks:
   - name: Copy Nomad server config
     copy:
       src: ../Config/nomad_server.json
-      dest:  {{ansible_env.HOME}}
+      dest:  "{{ ansible_env.HOME }}"
   - name: Copy Consul server config
     copy:
       src: ../Config/consul_server.json
-      dest:  {{ansible_env.HOME}}
+      dest:  "{{ ansible_env.HOME }}"
   - name: Update Nomad master configs
     json:
-      file: "nomad_server.json"
+      file: nomad_server.json
       path: "{{ ansible_env.HOME }}"
-      url: " {{ ansible_default_ipv4.address }} "
-      key: "name"
+      url: "{{ ansible_default_ipv4.address }}"
+      key: name
       name: "{{ ansible_nodename }}"
   - name: Update Consul master configs
     json:
-      file: "consul_server.json"
+      file: consul_server.json
       path: "{{ ansible_env.HOME }}"
-      url: " {{ ansible_default_ipv4.address }} "
-      key: "node_name"
+      url: "{{ ansible_default_ipv4.address }}"
+      key: node_name
       name: "{{ ansible_nodename }}"
 
-- hosts: clients
+- hosts: public:private
   remote_user: antonio
   tasks:
   - name: Copy Nomad client config
@@ -39,15 +40,15 @@
       dest:  "{{ ansible_env.HOME }}"
   - name: Update Nomad clients configs
     json:
-      file: "nomad_client.json"
+      file: nomad_client.json
       path: "{{ ansible_env.HOME }}"
-      url: " {{ ansible_default_ipv4.address }} "
-      key: "name"
+      url: "{{ ansible_default_ipv4.address }}"
+      key: name
       name: "{{ ansible_nodename }}"
   - name: Update Consul clients configs
     json:
-      file: "consul_client"
+      file: consul_client.json
       path: "{{ ansible_env.HOME }}"
-      url: " {{ ansible_default_ipv4.address }} "
-      key: "node_name"
+      url: "{{ ansible_default_ipv4.address }}"
+      key: node_name
       name: "{{ ansible_nodename }}"
