@@ -2,9 +2,10 @@
 
 - name: Installing Nomad + Consul
   hosts: all
-  remote_user: antonio
-  # become: yes # sudo
+  # remote_user:
+  become: yes # sudo
   roles:
     - Docker
     - Consul
+    - Python-consul
     - Nomad

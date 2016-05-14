@@ -10,8 +10,8 @@
 - name: Change permission
   file: path=/usr/bin/consul mode="a+x"
 
-- name: Create Consul config folder
-  file: path=/etc/consul.d state=directory mode="a+w"
+- name: Create Consul services folder
+  file: path=/etc/consul.d/services state=directory
 
 - name: Create Consul ui folder
   file: path=/etc/consul.d/ui state=directory

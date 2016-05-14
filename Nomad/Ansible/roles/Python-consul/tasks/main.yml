@@ -1,0 +1,15 @@
+---
+
+- name: Install pip
+  apt:
+    name: python-pip
+    update_cache: yes
+    state: latest
+- name: Install virtualenv
+  pip:
+    name: virtualenv
+    state: latest
+- name: Install python-consul
+  pip:
+    state: latest
+    name: python-consul

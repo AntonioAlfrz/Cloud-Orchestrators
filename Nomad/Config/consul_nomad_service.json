@@ -1,15 +1,14 @@
 {
   "service": {
     "name": "Nomad",
-    "address": "10.0.0.5",
+    "address": "",
     "port": 4647,
-    "enableTagOverride": false,
 	  "check": {
-      "id": "api",
-      "name": "HTTP API on port 4646",
-      "http": "http://10.0.0.5:4646/v1/nodes",
-      "interval": "10s",
-      "timeout": "1s"
+      "id": "nomadcheck",
+      "name": "Nomad on port 4646",
+      "http": "http://{{}}/v1/nodes",
+      "interval": "60s",
+      "timeout": "5s"
     }
   }
 }

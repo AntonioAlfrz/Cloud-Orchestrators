@@ -1,0 +1,32 @@
+---
+
+- name: Run consul on first master
+  hosts: master[0]
+  tasks:
+    - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json >> /dev/null &
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+
+- name: Run consul on the rest of the masters
+  hosts: master:!master[0]
+  tasks:
+    - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json -join {{ groups['master'][0]}} >> /dev/null &
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+
+- name: Run consul on the clients
+  hosts: private:public
+  tasks:
+    - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_client.json -join {{ groups['master'][0]}} >> /dev/null &
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+        
+- name: Update Nomad service (Consul file)
+  hosts: all
+  tasks:
+    - consul:
+        service_name: Nomad
+        service_port: 4647
+        http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
+        interval: 30s
+        timeout: 5s
