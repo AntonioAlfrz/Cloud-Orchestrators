@@ -9,3 +9,6 @@
     - Consul
     - Python-consul
     - Nomad
+  include:
+    - update_config.yml
+    - run_consul.yml

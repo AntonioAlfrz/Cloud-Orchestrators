@@ -1,12 +1,12 @@
 {
   "service": {
-    "name": "Nomad",
+    "name": "",
     "address": "",
     "port": 4647,
-	  "check": {
-      "id": "nomadcheck",
-      "name": "Nomad on port 4646",
-      "http": "http://{{}}/v1/nodes",
+    "check": {
+      "id": "",
+      "name": "",
+      "http": "",
       "interval": "60s",
       "timeout": "5s"
     }

@@ -8,10 +8,11 @@ def main():
         argument_spec = dict(
             file = dict(required=True),
             path = dict(required=True),
-            url = dict(required=True),
-            key = dict(required=True, choices=['node_name', 'name']),
-            name = dict(required=True),
-            node_class = dict(choices=['Public', 'Private'])
+            address = dict(required=True),
+            service_name = dict(required=True),
+            check_id = dict(required=True),
+            check_name = dict(required=True),
+            check_http = dict(required=True),
         )
     )
 
@@ -20,23 +21,18 @@ def main():
     with open(filename,'r') as data_file:
         data = json.load(data_file)
 
-    key = module.params['key']
-    if key not in data:
-        module.fail_json(msg="No key: "+key)
-
     # Change
-    data["bind_addr"] = module.params['url']
-    data[key] = module.params['name']
-
-    if 'client' in data:
-        data['client']['node_class'] = module.params['node_class']
+    data['service']['address'] = module.params['address']
+    data['service']['name'] = module.params['service_name']
+    data['service']['check']['id'] = module.params['check_id']
+    data['service']['check']['name'] = module.params['check_name']
+    data['service']['check']['http'] = module.params['check_http']
 
     # Write
     with open(filename, 'w') as f:
          json.dump(data, f)
 
     module.exit_json(changed=True)
-
 
 # Execute
 if __name__ == '__main__':
