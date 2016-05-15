@@ -1,0 +1,22 @@
+---
+
+- name: Run consul on first master
+  hosts: master[0]
+  tasks:
+    - shell: nomad agent -config nomad_server.json >> /dev/null &
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+
+- name: Run consul on the rest of the masters
+  hosts: master:!master[0]
+  tasks:
+    - shell: nomad agent -config nomad_client.json -join {{ groups['master'][0] }}  >> /dev/null &
+      args:
+        chdir: "{{ ansible_env.HOME }}"
+
+- name: Run consul on the clients
+  hosts: all:!master
+  tasks:
+    - shell: nomad agent -config nomad_client.json >> /dev/null &
+      args:
+        chdir: "{{ ansible_env.HOME }}"

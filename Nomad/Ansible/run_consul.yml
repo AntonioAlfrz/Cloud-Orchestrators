@@ -37,6 +37,6 @@
       service_name: Nomad
       check_id: nomadcheck
       check_name: Nomad on port 4646
-      check_http: http://{{ ansible_all_ipv4_addresses[1] }}/v1/nodes
+      check_http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
   - name: Reload Consul
     command: consul reload
