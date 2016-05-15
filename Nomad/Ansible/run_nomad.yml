@@ -1,5 +1,6 @@
 ---
 
+- include: stop_nomad.yml
 - name: Register Nomad as a Consul service on masters
   hosts: master
   tasks:

@@ -1,0 +1,10 @@
+---
+
+- name: Shutdown Consul
+  hosts: all
+  tasks:
+    - name: Kill Consul
+      command: pkill consul
+      ignore_errors: yes
+    - name: Delete previous state
+      shell: rm -rf /tmp/consul/*

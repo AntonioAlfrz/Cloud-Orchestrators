@@ -12,3 +12,4 @@
   include:
     - update_config.yml
     - run_consul.yml
+    - run_nomad.yml
