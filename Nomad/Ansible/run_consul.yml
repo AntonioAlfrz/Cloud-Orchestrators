@@ -1,42 +1,36 @@
 ---
 
-- name: Run consul on first master
+- name: Run Consul on first master
   hosts: master[0]
   tasks:
     - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
+      register: command_result
+      failed_when: "command_result.stderr"
 
-- name: Run consul on the rest of the masters
+- name: Run Consul on the rest of the masters
   hosts: master:!master[0]
   tasks:
+    - name: Waiting for first master
+      wait_for:
+        host: "{{ groups['master'][0] }}"
+        port: 8400 # Consul RPC port
     - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json -join {{ groups['master'][0]}} >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
-
-- name: Run consul on the clients
+      register: command_result
+      failed_when: "command_result.stderr"
+- name: Run Consul on the clients
   hosts: private:public
   tasks:
+    - name: Waiting for masters
+      with_inventory_hostnames: master
+      wait_for:
+        host: "{{ item }}"
+        port: 8400 # Consul RPC port
     - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_client.json -join {{ groups['master'][0]}} >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
-
-- name: Register Nomad as a Consul service
-  hosts: all
-  become: yes
-  tasks:
-  - name: Copy service config file
-    copy:
-      src: ../Config/consul_nomad_service.json
-      dest:  /etc/consul.d/services
-  - name: Config Consul client config
-    consulconf:
-      file: consul_nomad_service.json
-      path: /etc/consul.d/services
-      address: "{{ ansible_all_ipv4_addresses[1] }}"
-      service_name: Nomad
-      check_id: nomadcheck
-      check_name: Nomad on port 4646
-      check_http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
-  - name: Reload Consul
-    command: consul reload
+      register: command_result
+      failed_when: "command_result.stderr"

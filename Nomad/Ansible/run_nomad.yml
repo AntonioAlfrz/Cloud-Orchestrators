@@ -1,22 +1,61 @@
 ---
 
-- name: Run consul on first master
+- name: Register Nomad as a Consul service on masters
+  hosts: master
+  tasks:
+  - name: Copy service config file
+    copy:
+      src: ../Config/consul_nomad_service.json
+      dest:  /etc/consul.d/services
+  - name: Config Consul client config
+    consulconf:
+      file: consul_nomad_service.json
+      path: /etc/consul.d/services
+      address: "{{ ansible_all_ipv4_addresses[1] }}"
+      service_name: Nomad
+      check_id: nomadcheck
+      check_name: Nomad on port 4646
+      check_http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
+  - name: Reload consul
+    command: consul reload
+
+- name: Run Nomad on first master
   hosts: master[0]
   tasks:
     - shell: nomad agent -config nomad_server.json >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
+      register: command_result
+      failed_when: "command_result.stderr"
 
-- name: Run consul on the rest of the masters
+- name: Run Nomad on the rest of the masters
   hosts: master:!master[0]
   tasks:
-    - shell: nomad agent -config nomad_client.json -join {{ groups['master'][0] }}  >> /dev/null &
+    - name: Waiting for first master
+      wait_for:
+        host: "{{ groups['master'][0] }}"
+        port: 4647 # Nomad RPC port
+    - shell: nomad agent -config nomad_server.json -join {{ groups['master'][0] }}  >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
+      register: command_result
+      failed_when: "command_result.stderr"
 
-- name: Run consul on the clients
+- name: Run Nomad on the clients
   hosts: all:!master
   tasks:
+    - name: Waiting for leader election
+      with_inventory_hostnames: master
+      wait_for:
+        host: "{{ item }}"
+        port: 4647
     - shell: nomad agent -config nomad_client.json >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
+      register: command_result
+      failed_when: "command_result.stderr"
+    - name: Register Nomad check on clients
+      consul:
+        check_name: Nomad Check
+        http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
+        interval: 60s

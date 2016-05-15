@@ -28,7 +28,7 @@
       name: "{{ ansible_nodename }}"
 
 - name: Copy Clients Configuration files
-  hosts: public:private
+  hosts: all:!master
   tasks:
   - name: Copy Nomad client config
     copy:
@@ -38,6 +38,13 @@
     copy:
       src: ../Config/consul_client.json
       dest:  "{{ ansible_env.HOME }}"
+  - name: Config Consul clients
+    json:
+      file: consul_client.json
+      path: "{{ ansible_env.HOME }}"
+      url: "{{ ansible_all_ipv4_addresses[1] }}"
+      key: node_name
+      name: "{{ ansible_nodename }}"
 
 - name: Config Nomad public nodes
   hosts: public
