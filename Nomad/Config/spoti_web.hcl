@@ -5,12 +5,14 @@ job "Spoti-web" {
 	constraint {
 		attribute = "${node.class}"
     value = "Private"
+		# distinct_hosts = true
 	}
 	update {
 		stagger = "10s"
 		max_parallel = 1
 	}
   group "WEB"{
+		count = 2
     restart {
 			attempts = 3
 			interval = "5m"
@@ -20,14 +22,17 @@ job "Spoti-web" {
     task "spoti-web" {
       driver = "docker"
       config {
-        image = "aalferez/nomad_web"
+        image = "aalferez/nomad_web:2"
         port_map {
           http = 8080
         }
-				dns_servers = ["192.168.1.10","192.168.1.11"]
+      }
+			env{
+        APIURL=""
+				MONGOURL=""
       }
       service {
-				name = "webservice"
+				name = "web"
         port = "http"
         check {
           type = "http"

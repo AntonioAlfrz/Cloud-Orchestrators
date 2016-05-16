@@ -376,13 +376,46 @@
                 ],
                 "frontendIPConfigurations": [
                     {
-                        "name": "[variables('masterLbIPConfigName')]",
-                        "properties": {
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('masterPublicIPAddressName'))]"
-                            }
-                        }
+                      "name": "[variables('masterLbIPConfigName')]",
+                      "properties": {
+                          "publicIPAddress": {
+                              "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('masterPublicIPAddressName'))]"
+                          }
+                      }
                     }
+                ],
+                "loadBalancingRules": [
+                    {
+                      "name": "Consul",
+                      "properties": {
+                        "backendAddressPool": {
+                            "id": "[concat(variables('masterLbName'), '/backendAddressPools/', variables('masterLbBackendPoolName'))]"
+                        },
+                        "backendPort": 8500,
+                        "enableFloatingIP": false,
+                        "frontendIPConfiguration": {
+                            "id": "[variables('masterLbIPConfigName')]"
+                        },
+                        "frontendPort": 8500,
+                        "idleTimeoutInMinutes": 5,
+                        "loadDistribution": "Default",
+                        "probe": {
+                            "id": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('masterLbName')),'/probes/Consul-probe')]"
+                        },
+                        "protocol": "tcp"
+                      }
+                    }
+                ],
+                "probes": [
+                  {
+                    "name": "Consul-probe",
+                    "properties": {
+                        "intervalInSeconds": "30",
+                        "numberOfProbes": "3",
+                        "port": 8500,
+                        "protocol": "tcp"
+                    }
+                  }
                 ]
             },
             "dependsOn": [
@@ -420,18 +453,32 @@
             "properties": {
                 "securityRules": [
                     {
-                        "name": "ssh",
-                        "properties": {
-                            "access": "Allow",
-                            "description": "Allow SSH",
-                            "destinationAddressPrefix": "*",
-                            "destinationPortRange": "22",
-                            "direction": "Inbound",
-                            "priority": 200,
-                            "protocol": "Tcp",
-                            "sourceAddressPrefix": "*",
-                            "sourcePortRange": "*"
-                        }
+                      "name": "ssh",
+                      "properties": {
+                          "access": "Allow",
+                          "description": "Allow SSH",
+                          "destinationAddressPrefix": "*",
+                          "destinationPortRange": "22",
+                          "direction": "Inbound",
+                          "priority": 200,
+                          "protocol": "Tcp",
+                          "sourceAddressPrefix": "*",
+                          "sourcePortRange": "*"
+                      }
+                    },
+                    {
+                      "name": "Consul",
+                      "properties": {
+                          "access": "Allow",
+                          "description": "Allow Consul",
+                          "destinationAddressPrefix": "*",
+                          "destinationPortRange": "8500",
+                          "direction": "Inbound",
+                          "priority": 100,
+                          "protocol": "Tcp",
+                          "sourceAddressPrefix": "*",
+                          "sourcePortRange": "*"
+                      }
                     }
                 ]
             }
@@ -619,40 +666,66 @@
                 ],
                 "inboundNatRules": [],
                 "loadBalancingRules": [
-                    {
-                        "name": "LBRuleHTTP",
-                        "properties": {
-                            "backendAddressPool": {
-                                "id": "[concat(variables('agentsPublicLbID'), '/backendAddressPools/', variables('agentsPublicLbBackendPoolName'))]"
-                            },
-                            "backendPort": 80,
-                            "enableFloatingIP": false,
-                            "frontendIPConfiguration": {
-                                "id": "[variables('agentsPublicLbIPConfigID')]"
-                            },
-                            "frontendPort": 80,
-                            "idleTimeoutInMinutes": 5,
-                            "loadDistribution": "Default",
-                            "protocol": "Tcp"
-                        }
-                    },
-                    {
-                        "name": "LBRulePort8080",
-                        "properties": {
-                            "backendAddressPool": {
-                                "id": "[concat(variables('agentsPublicLbID'), '/backendAddressPools/', variables('agentsPublicLbBackendPoolName'))]"
-                            },
-                            "backendPort": 8080,
-                            "enableFloatingIP": false,
-                            "frontendIPConfiguration": {
-                                "id": "[variables('agentsPublicLbIPConfigID')]"
-                            },
-                            "frontendPort": 8080,
-                            "idleTimeoutInMinutes": 5,
-                            "loadDistribution": "Default",
-                            "protocol": "Tcp"
-                        }
+                  {
+                      "name": "LBRuleHTTP",
+                      "properties": {
+                          "backendAddressPool": {
+                              "id": "[concat(variables('agentsPublicLbID'), '/backendAddressPools/', variables('agentsPublicLbBackendPoolName'))]"
+                          },
+                          "backendPort": 80,
+                          "enableFloatingIP": false,
+                          "frontendIPConfiguration": {
+                              "id": "[variables('agentsPublicLbIPConfigID')]"
+                          },
+                          "frontendPort": 80,
+                          "idleTimeoutInMinutes": 5,
+                          "loadDistribution": "Default",
+                          "probe": {
+                              "id": "[concat(variables('agentsPublicLbID'),'/probes/tcpHTTPProbe')]"
+                          },
+                          "protocol": "Tcp"
+                      }
+                  },
+                  {
+                    "name": "LBRulePort8080",
+                    "properties": {
+                        "backendAddressPool": {
+                            "id": "[concat(variables('agentsPublicLbID'), '/backendAddressPools/', variables('agentsPublicLbBackendPoolName'))]"
+                        },
+                        "backendPort": 8080,
+                        "enableFloatingIP": false,
+                        "frontendIPConfiguration": {
+                            "id": "[variables('agentsPublicLbIPConfigID')]"
+                        },
+                        "frontendPort": 8080,
+                        "idleTimeoutInMinutes": 5,
+                        "loadDistribution": "Default",
+                        "probe": {
+                          "id": "[concat(variables('agentsPublicLbID'),'/probes/tcpPort8080Probe')]"
+                        },
+                        "protocol": "Tcp"
                     }
+                  }
+                ],
+                "probes": [
+                  {
+                    "name": "tcpHTTPProbe",
+                    "properties": {
+                        "intervalInSeconds": "5",
+                        "numberOfProbes": "2",
+                        "port": 80,
+                        "protocol": "tcp"
+                    }
+                  },
+                  {
+                    "name": "tcpPort8080Probe",
+                    "properties": {
+                        "intervalInSeconds": "5",
+                        "numberOfProbes": "2",
+                        "port": 8080,
+                        "protocol": "tcp"
+                    }
+                  }
                 ]
             },
             "dependsOn": [

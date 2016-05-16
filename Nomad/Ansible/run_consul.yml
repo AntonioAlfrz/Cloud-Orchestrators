@@ -8,7 +8,8 @@
   - name: Run Consul on first master
     hosts: master[0]
     tasks:
-      - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json >> /dev/null &
+      - name: Run agent master
+        shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json >> /dev/null &
         args:
           chdir: "{{ ansible_env.HOME }}"
         register: command_result
@@ -22,7 +23,8 @@
           host: "{{ groups['master'][0] }}"
           port: 8301 # Consul RPC port
           timeout: 10
-      - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json -join {{ groups['master'][0]}} >> /dev/null &
+      - name: Run agent other masters
+        shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json -join {{ groups['master'][0]}} >> /dev/null &
         args:
           chdir: "{{ ansible_env.HOME }}"
         register: command_result
@@ -36,7 +38,8 @@
           host: "{{ item }}"
           port: 8301 # Consul RPC port
           timeout: 10
-      - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_client.json -join {{ groups['master'][0]}} >> /dev/null &
+      - name: Run agent clients
+        shell: consul agent -config-dir /etc/consul.d/services -config-file consul_client.json -join {{ groups['master'][0]}} >> /dev/null &
         args:
           chdir: "{{ ansible_env.HOME }}"
         register: command_result

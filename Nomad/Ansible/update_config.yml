@@ -49,7 +49,7 @@
 - name: Config Nomad public nodes
   hosts: public
   tasks:
-    - include: tasks/load-balancer.yml
+    - include: tasks/load-balancer.yml # HAProxy with consul-template
     - name: Update Nomad public clients configs
       json:
         file: nomad_client.json
