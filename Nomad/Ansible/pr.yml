@@ -1,0 +1,9 @@
+---
+
+  - name: Install load balancer on public node
+    hosts: public
+    tasks:
+      - name: Copy HAProxy template file
+        copy:
+          src: ../Config/haproxy.ctmpl
+          dest: "{{ ansible_env.HOME }}"

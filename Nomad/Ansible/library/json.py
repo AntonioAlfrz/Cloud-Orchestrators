@@ -26,6 +26,9 @@ def main():
 
     # Change
     data["bind_addr"] = module.params['url']
+    if key == "node_name" and "addresses" in data and 'server' in data:
+        # Consul config
+        data["addresses"]["http"] = module.params['url']
     data[key] = module.params['name']
 
     if 'client' in data:

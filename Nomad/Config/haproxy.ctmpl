@@ -19,7 +19,7 @@ frontend front
 
 backend back
   balance roundrobin
-  {{range service "api.service.consul"}}
+  {{range service "api"}}
   server {{.Node}} {{.Address}}:{{.Port}} check{{end}}
   server api-1 api1:3000 check
   server api-2 api2:3000 check

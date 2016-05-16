@@ -2,6 +2,9 @@
   "datacenter": "Azure",
   "node_name": "",
   "bind_addr": "",
+  "addresses": {
+    "http": ""
+  },
   "client_addr": "127.0.0.1",
   "data_dir": "/tmp/consul",
   "leave_on_terminate": true,
