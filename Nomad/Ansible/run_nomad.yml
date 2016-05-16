@@ -36,6 +36,7 @@
       wait_for:
         host: "{{ groups['master'][0] }}"
         port: 4647 # Nomad RPC port
+        timeout: 10
     - shell: nomad agent -config nomad_server.json -join {{ groups['master'][0] }}  >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
@@ -50,6 +51,7 @@
       wait_for:
         host: "{{ item }}"
         port: 4647
+        timeout: 20
     - shell: nomad agent -config nomad_client.json >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
@@ -59,4 +61,4 @@
       consul:
         check_name: Nomad Check
         http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
-        interval: 60s
+        interval: 30s

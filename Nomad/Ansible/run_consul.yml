@@ -16,7 +16,8 @@
     - name: Waiting for first master
       wait_for:
         host: "{{ groups['master'][0] }}"
-        port: 8300 # Consul RPC port
+        port: 8301 # Consul RPC port
+        timeout: 10
     - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_server.json -join {{ groups['master'][0]}} >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
@@ -29,7 +30,8 @@
       with_inventory_hostnames: master
       wait_for:
         host: "{{ item }}"
-        port: 8300 # Consul RPC port
+        port: 8301 # Consul RPC port
+        timeout: 10
     - shell: consul agent -config-dir /etc/consul.d/services -config-file consul_client.json -join {{ groups['master'][0]}} >> /dev/null &
       args:
         chdir: "{{ ansible_env.HOME }}"
