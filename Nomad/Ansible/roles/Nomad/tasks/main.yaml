@@ -5,10 +5,13 @@
       - unzip
     update_cache: yes
     state: latest
+
 - name: Download and unzip Nomad
-  unarchive: src=https://releases.hashicorp.com/nomad/0.3.2/nomad_0.3.2_linux_amd64.zip dest=/usr/bin copy=no
-- name: Change permission
-  file: path=/usr/bin/nomad mode="a+x"
+  unarchive:
+    src: https://releases.hashicorp.com/nomad/0.3.2/nomad_0.3.2_linux_amd64.zip
+    dest: /usr/bin
+    copy: no
+    mode: "a+x"
 
 - name: Create Nomad config folder
   file: path=/etc/nomad.d state=directory mode="a+w"

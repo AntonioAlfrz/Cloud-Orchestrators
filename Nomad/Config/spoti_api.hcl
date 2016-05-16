@@ -2,6 +2,10 @@ job "Spoti-api" {
 	#region = "Europe"
 	datacenters = ["Azure"]
 	type = "service"
+	constraint {
+		attribute = "${node.class}"
+    value = "Private"
+	}
 	update {
 		stagger = "10s"
 		max_parallel = 1
@@ -19,7 +23,7 @@ job "Spoti-api" {
   	task "spoti-api" {
   		driver = "docker"
   		config {
-  			image = "aalferez/nomad_api"
+  			image = "aalferez/nomad_api:2"
   			port_map {
   				http = 3000
   			}
@@ -29,7 +33,7 @@ job "Spoti-api" {
         AZURE_STORAGE_ACCESS_KEY="6VyhZ2Mqt1kgGjJEFlh7hqPd/v1AEDCX+9/tN1IoOsZsX4VmZC8C8dwoaCGPjwRl6bGSRNQiXpfnwCxK4IGhjg=="
       }
   		service {
-				name = "apiservice"
+				name = "api"
         port = "http"
         check {
           type = "http"

@@ -2,6 +2,10 @@ job "Spoti-web" {
 	#region = "Europe"
 	datacenters = ["Azure"]
 	type = "service"
+	constraint {
+		attribute = "${node.class}"
+    value = "Private"
+	}
 	update {
 		stagger = "10s"
 		max_parallel = 1

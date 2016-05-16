@@ -1,0 +1,26 @@
+defaults
+    mode    http
+    option  httplog
+    option  dontlognull
+    option  redispatch
+    retries 3
+    timeout connect  5000
+    timeout client  10000
+    timeout server  10000
+
+listen stats :7071
+  stats enable
+  stats uri /
+
+frontend front
+   bind *:8080
+   option http-server-close
+   default_backend back
+
+backend back
+  balance roundrobin
+  {{range service "api.service.consul"}}
+  server {{.Node}} {{.Address}}:{{.Port}} check{{end}}
+  server api-1 api1:3000 check
+  server api-2 api2:3000 check
+  server api-3 api3:3000 check

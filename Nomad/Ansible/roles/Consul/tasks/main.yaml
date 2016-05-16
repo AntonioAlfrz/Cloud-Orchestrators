@@ -1,4 +1,5 @@
 ---
+  
 - name: Install unzip
   apt:
     name:
@@ -6,9 +7,11 @@
     update_cache: yes
     state: latest
 - name: Download and unzip Consul
-  unarchive: src=https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip dest=/usr/bin copy=no
-- name: Change permission
-  file: path=/usr/bin/consul mode="a+x"
+  unarchive:
+    src: https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip
+    dest: /usr/bin
+    copy: no
+    mode: "a+x"
 
 - name: Create Consul services folder
   file: path=/etc/consul.d/services state=directory mode="a+w"
