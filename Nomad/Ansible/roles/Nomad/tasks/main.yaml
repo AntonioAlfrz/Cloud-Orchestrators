@@ -12,6 +12,3 @@
     dest: /usr/bin
     copy: no
     mode: "a+x"
-
-- name: Create Nomad config folder
-  file: path=/etc/nomad.d state=directory mode="a+w"

@@ -15,11 +15,11 @@
       consulconf:
         file: consul_nomad_service.json
         path: /etc/consul.d/services
-        address: "{{ ansible_all_ipv4_addresses[1] }}"
+        address: "{{ inventory_hostname }}"
         service_name: Nomad
         check_id: nomadcheck
         check_name: Nomad on port 4646
-        check_http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
+        check_http: http://{{ inventory_hostname }}:4646/v1/nodes
     - name: Reload consul
       command: consul reload
 
@@ -63,5 +63,5 @@
       - name: Register Nomad check on clients
         consul:
           check_name: Nomad Check
-          http: http://{{ ansible_all_ipv4_addresses[1] }}:4646/v1/nodes
+          http: http://{{ inventory_hostname }}:4646/v1/nodes
           interval: 30s
