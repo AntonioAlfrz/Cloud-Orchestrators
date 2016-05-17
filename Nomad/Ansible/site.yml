@@ -1,6 +1,6 @@
 ---
 
-  - name: Installing Nomad + Consul
+  - name: Init Nomad + Consul
     hosts: all
     # remote_user:
     become: yes # sudo
@@ -18,3 +18,5 @@
     become: yes
     roles:
       - HAProxy
+    tasks:
+      - include: tasks/consul-template.yml

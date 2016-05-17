@@ -6,8 +6,3 @@
       dest: "{{ ansible_env.HOME }}"
       copy: no
       mode: "a+x"
-
-  - name: Copy HAProxy template file
-    copy:
-      src: ../../Config/haproxy.ctmpl
-      dest: "{{ ansible_env.HOME }}"
