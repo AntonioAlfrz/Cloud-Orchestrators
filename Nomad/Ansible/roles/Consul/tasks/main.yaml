@@ -1,5 +1,5 @@
 ---
-  
+
 - name: Install unzip
   apt:
     name:
@@ -29,7 +29,7 @@
     update_cache: yes
     state: latest
 - name: Add Consul dns configuration
-  command: echo 'server=/consul/127.0.0.1#8600' | sudo tee --append /etc/dnsmasq.d/10-consul
+  shell: echo 'server=/consul/127.0.0.1#8600' | sudo tee --append /etc/dnsmasq.d/10-consul
 - name: Restart dnsmasq
   service:
     name: dnsmasq
