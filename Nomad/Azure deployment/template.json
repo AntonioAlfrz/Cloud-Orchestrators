@@ -404,6 +404,26 @@
                         },
                         "protocol": "tcp"
                       }
+                    },
+                    {
+                      "name": "Nomad",
+                      "properties": {
+                        "backendAddressPool": {
+                            "id": "[concat(variables('masterLbName'), '/backendAddressPools/', variables('masterLbBackendPoolName'))]"
+                        },
+                        "backendPort": 4646,
+                        "enableFloatingIP": false,
+                        "frontendIPConfiguration": {
+                            "id": "[variables('masterLbIPConfigName')]"
+                        },
+                        "frontendPort": 4646,
+                        "idleTimeoutInMinutes": 5,
+                        "loadDistribution": "Default",
+                        "probe": {
+                            "id": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('masterLbName')),'/probes/Nomad-probe')]"
+                        },
+                        "protocol": "tcp"
+                      }
                     }
                 ],
                 "probes": [
@@ -413,6 +433,15 @@
                         "intervalInSeconds": "30",
                         "numberOfProbes": "3",
                         "port": 8500,
+                        "protocol": "tcp"
+                    }
+                  },
+                  {
+                    "name": "Nomad-probe",
+                    "properties": {
+                        "intervalInSeconds": "30",
+                        "numberOfProbes": "3",
+                        "port": 4646,
                         "protocol": "tcp"
                     }
                   }
@@ -473,6 +502,20 @@
                           "description": "Allow Consul",
                           "destinationAddressPrefix": "*",
                           "destinationPortRange": "8500",
+                          "direction": "Inbound",
+                          "priority": 101,
+                          "protocol": "Tcp",
+                          "sourceAddressPrefix": "*",
+                          "sourcePortRange": "*"
+                      }
+                    },
+                    {
+                      "name": "Nomad",
+                      "properties": {
+                          "access": "Allow",
+                          "description": "Allow Nomad",
+                          "destinationAddressPrefix": "*",
+                          "destinationPortRange": "4646",
                           "direction": "Inbound",
                           "priority": 100,
                           "protocol": "Tcp",

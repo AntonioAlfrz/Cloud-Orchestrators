@@ -5,7 +5,6 @@ job "Spoti-web" {
 	constraint {
 		attribute = "${node.class}"
     value = "Private"
-		# distinct_hosts = true
 	}
 	update {
 		stagger = "10s"
@@ -26,10 +25,13 @@ job "Spoti-web" {
         port_map {
           http = 8080
         }
+				# Need to resolve consul directions (api.service.consul)
+				# Task IP bind = Node IP
+				dns_servers = ["${NOMAD_IP_http}"]
       }
 			env{
-        APIURL=""
-				MONGOURL=""
+        APIURL="api.service.consul"
+				MONGOURL="10.32.0.5:27017"
       }
       service {
 				name = "web"
