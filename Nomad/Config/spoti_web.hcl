@@ -31,7 +31,7 @@ job "Spoti-web" {
       }
 			env{
         APIURL="api.service.consul"
-				MONGOURL="10.32.0.5:27017"
+				MONGOURL="mongodbcdps.westeurope.cloudapp.azure.com:27017"
       }
       service {
 				name = "web"

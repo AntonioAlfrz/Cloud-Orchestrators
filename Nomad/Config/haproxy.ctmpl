@@ -19,5 +19,6 @@ frontend front
 
 backend back
   balance roundrobin
+  cookie SERVERID insert indirect nocache
   {{range service "web"}}
-  server {{.Node}} {{.Address}}:{{.Port}} check{{end}}
+  server {{.Node}} {{.Address}}:{{.Port}} check cookie {{.Node}}{{end}}
