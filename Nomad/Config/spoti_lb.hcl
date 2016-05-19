@@ -2,35 +2,39 @@ job "Spoti-lb" {
 	#region = "Europe"
 	datacenters = ["Azure"]
 	type = "service"
-	constraint {
-		attribute = "${node.class}"
-    value = "Public"
-	}
+	priority = 50
 	update {
+		# Time between updates
 		stagger = "10s"
 		max_parallel = 1
 	}
-  group "LB"{
-		count = 2
+  group "lb-web"{
+		count = 1
+		constraint {
+			attribute = "${node.class}"
+	    value = "Public"
+		}
     restart {
 			attempts = 3
 			interval = "5m"
+			# Between restarts
 			delay = "25s"
+			# Delay the next restart until the next interval is reached
 			mode = "delay"
 		}
-    task "spoti-lb" {
+    task "lb-web" {
       driver = "docker"
       config {
-        image = "aalferez/haproxy"
+        image = "aalferez/haproxy:web"
         port_map {
-          http = 3000
+          http = 8080
         }
 				# Need to resolve consul directions ()
 				# Task IP bind = Node IP
 				dns_servers = ["${NOMAD_IP_http}"]
       }
       service {
-				name = "web"
+				name = "haproxy-web"
         port = "http"
         check {
           type = "http"
@@ -40,13 +44,56 @@ job "Spoti-lb" {
         }
       }
       resources {
-				cpu = 500 # 500 Mhz
-				memory = 256 # 256MB
+        network {
+          mbits = 10
+          port "http"{
+            static = 8080
+          }
+        }
+      }
+    }
+  }
+	group "lb-api"{
+		count = 1
+		constraint {
+			attribute = "${node.class}"
+	    value = "Private"
+		}
+    restart {
+			attempts = 3
+			interval = "5m"
+			# Between restarts
+			delay = "25s"
+			# Delay the next restart until the next interval is reached
+			mode = "delay"
+		}
+    task "lb-api" {
+      driver = "docker"
+      config {
+        image = "aalferez/haproxy:api"
+        port_map {
+          http = 3000
+        }
+				# Need to resolve consul directions ()
+				# Task IP bind = Node IP
+				dns_servers = ["${NOMAD_IP_http}"]
+      }
+      service {
+				name = "haproxy-api"
+        port = "http"
+        check {
+          type = "http"
+          path = "/"
+          interval = "10s"
+          timeout = "2s"
+        }
+      }
+      resources {
         network {
           mbits = 10
           port "http"{
             static = 3000
-          } # Dinámico
+          }
         }
       }
     }

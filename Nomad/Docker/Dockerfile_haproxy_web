@@ -1,0 +1,8 @@
+FROM haproxy:1.5
+
+COPY consul-template /usr/bin/consul-template
+COPY haproxy_web.ctmpl /haproxy.ctmpl
+
+EXPOSE 3000
+ENTRYPOINT ["consul-template","-consul","consul.service.consul:8500", \
+"-template", "/haproxy.ctmpl:/haproxy.cfg:haproxy -f /haproxy.cfg"]
