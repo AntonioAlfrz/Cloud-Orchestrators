@@ -5,4 +5,4 @@ COPY haproxy_web.ctmpl /haproxy.ctmpl
 
 EXPOSE 3000
 ENTRYPOINT ["consul-template","-consul","consul.service.consul:8500", \
-"-template", "/haproxy.ctmpl:/haproxy.cfg:haproxy -f /haproxy.cfg"]
+"-template", "/haproxy.ctmpl:/haproxy.cfg:haproxy -f /haproxy.cfg -D"]

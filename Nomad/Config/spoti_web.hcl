@@ -27,10 +27,11 @@ job "Spoti-web" {
         }
 				# Need to resolve consul directions (api.service.consul)
 				# Task IP bind = Node IP
-				dns_servers = ["${NOMAD_IP_http}"]
+				# dns_servers = ["${attr.unique.network.ip-address}"]
+				dns_servers = ["172.16.0.4","172.16.0.5"]
       }
 			env{
-        APIURL="api.service.consul"
+        APIURL="haproxy-api.service.consul:3000"
 				MONGOURL="mongodbcdps.westeurope.cloudapp.azure.com:27017"
       }
       service {

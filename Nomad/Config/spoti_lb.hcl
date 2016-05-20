@@ -29,9 +29,10 @@ job "Spoti-lb" {
         port_map {
           http = 8080
         }
-				# Need to resolve consul directions ()
+				# Need to resolve consul directions
 				# Task IP bind = Node IP
-				dns_servers = ["${NOMAD_IP_http}"]
+				# dns_servers = ["${attr.unique.network.ip-address}"]
+				dns_servers = ["172.16.0.4","172.16.0.5"]
       }
       service {
 				name = "haproxy-web"
@@ -76,7 +77,8 @@ job "Spoti-lb" {
         }
 				# Need to resolve consul directions ()
 				# Task IP bind = Node IP
-				dns_servers = ["${NOMAD_IP_http}"]
+				# dns_servers = ["${attr.unique.network.ip-address}"]
+				dns_servers = ["172.16.0.4","172.16.0.5"]
       }
       service {
 				name = "haproxy-api"
