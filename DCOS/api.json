@@ -4,7 +4,7 @@
   "cpus": 0.5,
   "mem": 128,
   "disk": 0,
-  "instances": 1,
+  "instances": 2,
   "container": {
     "type": "DOCKER",
     "volumes": [],
@@ -13,11 +13,10 @@
       "network": "BRIDGE",
       "portMappings": [
         {
-          "containerPort": 0,
+          "containerPort": 3000,
           "hostPort": 0,
           "servicePort": 10000,
           "protocol": "tcp",
-          "name": "api",
           "labels": {
             "VIP_0": "1.1.1.1:5001"
           }
@@ -30,16 +29,26 @@
   },
   "env": {
     "AZURE_STORAGE_ACCESS_KEY": "6VyhZ2Mqt1kgGjJEFlh7hqPd/v1AEDCX+9/tN1IoOsZsX4VmZC8C8dwoaCGPjwRl6bGSRNQiXpfnwCxK4IGhjg==",
-    "AZURE_STORAGE_ACCOUNT": "cdps"
+    "AZURE_STORAGE_ACCOUNT": "cdps",
+    "PORT": "3000"
   },
+  "healthChecks": [
+    {
+      "path": "/",
+      "protocol": "HTTP",
+      "portIndex": 0,
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false
+    }
+  ],
   "portDefinitions": [
     {
       "port": 10000,
       "protocol": "tcp",
-      "name": "api",
-      "labels": {
-        "VIP_0": "1.1.1.1:5001"
-      }
+      "labels": {}
     }
   ]
 }

@@ -1,22 +1,18 @@
 ---
 
-  - name: Init Nomad + Consul
+  - name: Install Nomad + Consul
     hosts: all
     # remote_user:
     become: yes # sudo
     roles:
-      - Docker
       - Consul
-      - Python-consul # Requirements for consul module of Ansible
       - Nomad
+  - name: Install Executor
+    hosts: all:!master
+    become: yes
+    roles:
+      - Docker
+      - Python-consul # Requirements for consul module of Ansible
   - include: update_config.yml
   - include: run_consul.yml
   - include: run_nomad.yml
-
-  - name: Install load balancer on public node
-    hosts: public
-    become: yes
-    roles:
-      - HAProxy
-    tasks:
-      - include: tasks/consul-template.yml
