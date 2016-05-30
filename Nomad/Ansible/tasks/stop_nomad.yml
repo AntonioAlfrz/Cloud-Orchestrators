@@ -1,7 +1,7 @@
 ---
 
   - name: Kill Nomad
-    command: pkill nomad
+    command: pkill -9 nomad
     ignore_errors: yes
   - name: Delete previous state
     shell: rm -rf /tmp/nomad/*
