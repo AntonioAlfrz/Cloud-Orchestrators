@@ -27,7 +27,7 @@ def main():
     # Change
     if "advertise" in data:
         # Nomad
-        data["advertise"]["rpc"] = module.params['url']
+        data["advertise"]["rpc"] = module.params['url']+":4647"
 
     if key == "node_name" and "addresses" in data and 'server' in data:
         # Consul config
