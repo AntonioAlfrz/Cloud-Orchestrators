@@ -3,9 +3,9 @@
   "datacenter": "Azure",
   "name": "",
 
-  "bind_addr": "0.0.0.0",
-  "advertise":{
-    "rpc": ""
+  "bind_addr": "",
+  "addresses":{
+    "http": "0.0.0.0"
   },
   "data_dir": "/tmp/nomad",
   "leave_on_interrupt": true,
