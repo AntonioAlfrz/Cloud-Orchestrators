@@ -25,9 +25,13 @@ def main():
         module.fail_json(msg="No key: "+key)
 
     # Change
-    data["bind_addr"] = module.params['url']
+    if "advertise" in data:
+        # Nomad
+        data["advertise"]["rpc"] = module.params['url']
+
     if key == "node_name" and "addresses" in data and 'server' in data:
         # Consul config
+        data["bind_addr"] = module.params['url']
         data["addresses"]["http"] = module.params['url']
     data[key] = module.params['name']
 

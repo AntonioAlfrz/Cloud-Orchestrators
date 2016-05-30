@@ -25,7 +25,7 @@ job "Spoti-web" {
         port_map {
           http = 8080
         }
-				# Need to resolve consul directions (api.service.consul)
+				# Need to resolve consul directions (api.service.consul) in container
 				# Task IP bind = Node IP
 				# dns_servers = ["${attr.unique.network.ip-address}"]
 				dns_servers = ["172.16.0.4","172.16.0.5"]
@@ -39,7 +39,7 @@ job "Spoti-web" {
         port = "http"
         check {
           type = "http"
-          path = "/"
+          path = "/health"
           interval = "10s"
           timeout = "2s"
         }

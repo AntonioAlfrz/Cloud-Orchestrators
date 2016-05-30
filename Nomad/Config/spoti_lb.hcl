@@ -39,7 +39,7 @@ job "Spoti-lb" {
         port = "http"
         check {
           type = "http"
-          path = "/"
+          path = "/health"
           interval = "10s"
           timeout = "2s"
         }
