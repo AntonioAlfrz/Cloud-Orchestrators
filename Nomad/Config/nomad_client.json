@@ -1,6 +1,6 @@
 {
   "region": "Europe",
-  "datacenter": "Azure",
+  "datacenter": "dc1",
   "name": "",
 
   "bind_addr": "",

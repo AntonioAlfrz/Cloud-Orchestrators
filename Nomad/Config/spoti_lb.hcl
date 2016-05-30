@@ -1,6 +1,6 @@
 job "Spoti-lb" {
-	#region = "Europe"
-	datacenters = ["Azure"]
+	region = "Europe"
+	datacenters = ["dc1"]
 	type = "service"
 	priority = 50
 	update {

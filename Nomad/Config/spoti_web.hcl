@@ -1,6 +1,6 @@
 job "Spoti-web" {
-	#region = "Europe"
-	datacenters = ["Azure"]
+	region = "Europe"
+	datacenters = ["dc1"]
 	type = "service"
 	constraint {
 		attribute = "${node.class}"
