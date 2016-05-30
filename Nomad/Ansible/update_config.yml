@@ -48,10 +48,6 @@
 - name: Config Nomad public nodes
   hosts: public
   tasks:
-    - name: Copy HAProxy template file
-      copy:
-        src: ../Config/haproxy.ctmpl
-        dest: "{{ ansible_env.HOME }}"
     - name: Update Nomad public clients configs
       json:
         file: nomad_client.json
