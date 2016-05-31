@@ -1,7 +1,13 @@
 ---
 
   - name: Kill Nomad
-    command: pkill -9 nomad
+    command: pkill nomad
     ignore_errors: yes
+
   - name: Delete previous state
     shell: rm -rf /tmp/nomad/*
+    
+  - name: Delete current containers
+    service:
+      name: docker
+      state: restarted
