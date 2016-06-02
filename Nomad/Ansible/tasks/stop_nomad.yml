@@ -6,8 +6,10 @@
 
   - name: Delete previous state
     shell: rm -rf /tmp/nomad/*
-    
+
   - name: Delete current containers
+    become: yes
+    ignore_errors: yes
     service:
       name: docker
       state: restarted
