@@ -43,11 +43,11 @@ job "Spoti-api" {
         }
       }
   		resources {
-				cpu = 500 # 500 Mhz
-				memory = 256 # 256MB
+				cpu = 500
+				memory = 128
   			network {
   				mbits = 10
-          port "http"{} # Dinámico
+          port "http"{}
   			}
   		}
   	}

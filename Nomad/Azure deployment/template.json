@@ -389,12 +389,13 @@
                       "name": "Consul",
                       "properties": {
                         "backendAddressPool": {
-                            "id": "[concat(variables('masterLbName'), '/backendAddressPools/', variables('masterLbBackendPoolName'))]"
+                            "id": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('masterLbName')), '/backendAddressPools/', variables('masterLbBackendPoolName'))]"
                         },
                         "backendPort": 8500,
                         "enableFloatingIP": false,
                         "frontendIPConfiguration": {
-                            "id": "[variables('masterLbIPConfigName')]"
+                            "id":
+                            "[concat(resourceId('Microsoft.Network/loadBalancers',variables('masterLbName')), '/frontendIPConfigurations/',variables('masterLbIPConfigName'))]"
                         },
                         "frontendPort": 8500,
                         "idleTimeoutInMinutes": 5,
@@ -409,12 +410,12 @@
                       "name": "Nomad",
                       "properties": {
                         "backendAddressPool": {
-                            "id": "[concat(variables('masterLbName'), '/backendAddressPools/', variables('masterLbBackendPoolName'))]"
+                            "id": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('masterLbName')), '/backendAddressPools/', variables('masterLbBackendPoolName'))]"
                         },
                         "backendPort": 4646,
                         "enableFloatingIP": false,
                         "frontendIPConfiguration": {
-                            "id": "[variables('masterLbIPConfigName')]"
+                            "id": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('masterLbName')), '/frontendIPConfigurations/',variables('masterLbIPConfigName'))]"
                         },
                         "frontendPort": 4646,
                         "idleTimeoutInMinutes": 5,
