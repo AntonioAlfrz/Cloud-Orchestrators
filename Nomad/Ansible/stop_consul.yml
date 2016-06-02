@@ -1,0 +1,5 @@
+---
+  - name: Stop previous Nomad
+    hosts: all
+    tasks:
+      - include: tasks/stop_consul.yml
