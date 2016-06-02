@@ -38,8 +38,7 @@ job "Spoti-lb" {
 				name = "haproxy-web"
         port = "http"
         check {
-          type = "http"
-          path = "/health"
+					type = "tcp"
           interval = "10s"
           timeout = "2s"
         }

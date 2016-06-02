@@ -28,7 +28,7 @@ job "Spoti-web" {
 				# Need to resolve consul directions (api.service.consul) in container
 				# Task IP bind = Node IP
 				# dns_servers = ["${attr.unique.network.ip-address}"]
-				dns_servers = ["172.16.0.4","172.16.0.5"]
+				dns_servers = ["8.8.8.8","8.8.4.4","172.16.0.4","172.16.0.5"]
       }
 			env{
         APIURL="haproxy-api.service.consul:3000"
@@ -38,8 +38,7 @@ job "Spoti-web" {
 				name = "web"
         port = "http"
         check {
-          type = "http"
-          path = "/health"
+          type = "tcp"
           interval = "10s"
           timeout = "2s"
         }

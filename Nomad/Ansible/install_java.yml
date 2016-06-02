@@ -1,0 +1,6 @@
+---
+  - name: Install Java for Jenkins
+    hosts: all:!master
+    become: yes # sudo
+    roles:
+      - Java
