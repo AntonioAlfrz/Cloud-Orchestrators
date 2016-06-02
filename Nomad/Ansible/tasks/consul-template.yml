@@ -5,4 +5,4 @@
       src: https://releases.hashicorp.com/consul-template/0.14.0/consul-template_0.14.0_linux_amd64.zip
       dest: "{{ ansible_env.HOME }}"
       copy: no
-      mode: "a+x"
+      mode: 0111

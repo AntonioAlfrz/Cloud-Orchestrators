@@ -11,4 +11,4 @@
     src: https://releases.hashicorp.com/nomad/0.3.2/nomad_0.3.2_linux_amd64.zip
     dest: /usr/bin
     copy: no
-    mode: "a+x"
+    mode: 0111

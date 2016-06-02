@@ -11,7 +11,7 @@
     src: https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip
     dest: /usr/bin
     copy: no
-    mode: "a+x"
+    mode: 0111
 
 - name: Create Consul services folder
   file: path=/etc/consul.d/services state=directory mode="a+w"
