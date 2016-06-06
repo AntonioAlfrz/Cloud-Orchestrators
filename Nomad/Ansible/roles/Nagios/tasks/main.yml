@@ -2,6 +2,32 @@
   - name: Nagios NRPE Server
     become: yes
     apt:
-      name: nagios-nrpe-server
+      name:
+        - nagios-nrpe-server
+        - libssl-dev
       update_cache: yes
       state: latest
+
+  - name: Download NPRE plugin
+    unarchive:
+      src: http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
+      dest: /temp
+      copy: no
+
+  - name: Download NRPE plugin
+    become: yes
+    shell: {{ item }}
+    with_item:
+      - ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
+      - make install-plugin
+      - make install-daemon
+      - make install-daemon-config
+    args:
+      chdir: /temp/nrpe-2.15
+    register: command_result
+    failed_when: "command_result.stderr"
+
+  - name: Copy configuration file
+  - copy:
+      src: nrpe.cfg
+      dest: /etc/nagios

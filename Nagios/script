@@ -1,0 +1,8 @@
+# sudo apt-get update && sudo apt-get install -y nagios3
+wget http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
+tar xvf nagios-plugins-2.1.1.tar.gz
+cd nagios-plugins-2.1.1
+./configure
+make
+make install
+# /usr/local/nagios/libexec

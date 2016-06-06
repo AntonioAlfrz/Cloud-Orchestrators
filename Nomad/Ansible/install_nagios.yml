@@ -1,6 +1,6 @@
 ---
 
   - name: Install Nagios remote server
-    hosts: all:!master
+    hosts: all:!public
     roles:
       - Nagios
