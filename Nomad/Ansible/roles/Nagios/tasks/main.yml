@@ -1,0 +1,7 @@
+---
+  - name: Nagios NRPE Server
+    become: yes
+    apt:
+      name: nagios-nrpe-server
+      update_cache: yes
+      state: latest
