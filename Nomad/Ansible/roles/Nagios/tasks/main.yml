@@ -11,7 +11,7 @@
   - name: Download NPRE plugin
     unarchive:
       src: http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
-      dest: /temp
+      dest: /tmp
       copy: no
 
   - name: Compile NRPE plugin
@@ -23,7 +23,7 @@
       - make install-daemon
       - make install-daemon-config
     args:
-      chdir: /temp/nrpe-2.15
+      chdir: /tmp/nrpe-2.15
     register: command_result
     failed_when: "command_result.stderr"
 
