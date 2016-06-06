@@ -31,3 +31,4 @@
   - copy:
       src: nrpe.cfg
       dest: /etc/nagios
+      force: yes
