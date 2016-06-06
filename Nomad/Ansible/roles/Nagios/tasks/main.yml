@@ -24,11 +24,14 @@
       - make install-daemon-config
     args:
       chdir: /tmp/nrpe-2.15
-    register: command_result
-    failed_when: "command_result.stderr"
 
   - name: Copy configuration file
     copy:
       src: nrpe.cfg
       dest: /etc/nagios
       force: yes
+
+  - name: Restar NRPE server
+    service:
+      name: nagios-nrpe-server
+      state: restarted
