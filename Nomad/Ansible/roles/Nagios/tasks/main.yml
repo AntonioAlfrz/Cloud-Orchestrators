@@ -14,10 +14,10 @@
       dest: /temp
       copy: no
 
-  - name: Download NRPE plugin
+  - name: Compile NRPE plugin
     become: yes
     shell: "{{ item }}"
-    with_item:
+    with_items:
       - ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
       - make install-plugin
       - make install-daemon
@@ -28,7 +28,7 @@
     failed_when: "command_result.stderr"
 
   - name: Copy configuration file
-  - copy:
+    copy:
       src: nrpe.cfg
       dest: /etc/nagios
       force: yes
