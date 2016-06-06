@@ -16,7 +16,7 @@
 
   - name: Download NRPE plugin
     become: yes
-    shell: {{ item }}
+    shell: "{{ item }}"
     with_item:
       - ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
       - make install-plugin
