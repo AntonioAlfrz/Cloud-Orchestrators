@@ -30,7 +30,7 @@ job "jenkins" {
         name = "jenkins"
         port = "http"
         check {
-          name     = "alive"
+          name     = "Check Jenkins"
           type     = "tcp"
           interval = "10s"
           timeout  = "2s"

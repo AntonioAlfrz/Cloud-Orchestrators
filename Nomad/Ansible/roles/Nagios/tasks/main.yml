@@ -13,31 +13,29 @@
       src: http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
       dest: /tmp
       copy: no
-    register: result
-    until: result.rc ==0
-    retries: 5
-    delay: 10
 
   - name: Compile NRPE plugin
     become: yes
     shell: "{{ item }}"
     with_items:
       - ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu >> /dev/null
-      - make all
-      - make install-plugin
-      - make install-daemon
-      - make install-daemon-config
+      - make all >> /dev/null
+      - make install-plugin >> /dev/null
+      - make install-daemon >> /dev/null
+      - make install-daemon-config >> /dev/null
     args:
       chdir: /tmp/nrpe-2.15
     ignore_errors: yes
 
   - name: Copy configuration file
+    become: yes
     copy:
       src: nrpe.cfg
       dest: /etc/nagios
       force: yes
 
   - name: Restar NRPE server
+    become: yes
     service:
       name: nagios-nrpe-server
       state: restarted

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+scale()
+{
+	azure group deployment create \
+  -f /home/antonio/Cloud-Orchestrators/Nomad/'Azure Deployment'/template.json \
+  -e /home/antonio/Cloud-Orchestrators/Nomad/'Azure Deployment'/parameters.json \
+  -g Nomad
+  --subscription ff099e2a-c411-47a6-be44-63e496d66b1d
+}
+
+echo "$1 $2 $3"
+case "$1" in
+OK)
+	;;
+WARNING)
+	;;
+UNKNOWN)
+	;;
+CRITICAL)
+  scale
+	;;
+
+esac
+exit 0
