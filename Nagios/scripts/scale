@@ -1,0 +1,21 @@
+#!/bin/sh
+
+scale()
+{
+	./scale.py
+}
+
+case "$1" in
+OK)
+	;;
+WARNING)
+	;;
+UNKNOWN)
+	;;
+CRITICAL)
+	echo "$1"
+  scale
+	;;
+
+esac
+exit 0
