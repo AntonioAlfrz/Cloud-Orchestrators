@@ -2,7 +2,7 @@
 
 scale()
 {
-	./scale.py
+	python3 scale.py
 }
 
 case "$1" in
@@ -13,8 +13,10 @@ WARNING)
 UNKNOWN)
 	;;
 CRITICAL)
-	echo "$1"
+	echo "Entrando en Critical"
   scale
+	echo "Ansible"
+	#ansible-playbook -i hosts --extra-vars "ansible_ssh_pass=Reverse1" site.yml
 	;;
 
 esac

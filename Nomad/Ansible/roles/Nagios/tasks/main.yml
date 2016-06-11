@@ -5,6 +5,8 @@
       name:
         - nagios-nrpe-server
         - libssl-dev
+        - make
+        - python-pip
       update_cache: yes
       state: latest
 
@@ -34,7 +36,7 @@
       dest: /etc/nagios
       force: yes
 
-  - name: Restar NRPE server
+  - name: Restart NRPE server
     become: yes
     service:
       name: nagios-nrpe-server
