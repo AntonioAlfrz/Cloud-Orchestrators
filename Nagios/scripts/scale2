@@ -1,0 +1,26 @@
+#!/bin/sh
+echo "Argumento: " "$1"
+set -x
+case "$1" in
+OK)
+	;;
+WARNING)
+	;;
+UNKNOWN)
+	;;
+CRITICAL)
+	if [ "$2" = "HARD" ]; then
+		echo "Ha entrado en Critical"
+		sudo python3 /home/antonio/Ansible/scale.py
+		echo $?
+		sudo ansible-playbook -i /home/antonio/Ansible/hosts \
+		--extra-vars "ansible_ssh_pass=Reverse1" \
+		--extra-vars "ansible_become_pass=Reverse1" \
+		-u antonio \
+		/home/antonio/Ansible/site.yml | sudo tee --append /home/antonio/log
+		echo $?
+	fi
+	;;
+
+esac
+exit 0

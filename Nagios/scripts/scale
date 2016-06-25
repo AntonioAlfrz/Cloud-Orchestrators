@@ -1,23 +1,5 @@
 #!/bin/sh
-
-scale()
-{
-	python3 scale.py
-}
-
-case "$1" in
-OK)
-	;;
-WARNING)
-	;;
-UNKNOWN)
-	;;
-CRITICAL)
-	echo "Entrando en Critical"
-  scale
-	echo "Ansible"
-	#ansible-playbook -i hosts --extra-vars "ansible_ssh_pass=Reverse1" site.yml
-	;;
-
-esac
-exit 0
+exec 2> /tmp/log."$$"
+set -x
+wall "Script execution started";
+/home/antonio/Ansible/scale2 "$1" "$2"

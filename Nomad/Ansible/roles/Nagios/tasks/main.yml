@@ -15,6 +15,7 @@
       src: http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
       dest: /tmp
       copy: no
+    ignore_errors: yes
 
   - name: Compile NRPE plugin
     become: yes

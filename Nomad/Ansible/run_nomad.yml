@@ -60,8 +60,8 @@
           chdir: "{{ ansible_env.HOME }}"
         register: command_result
         failed_when: "command_result.stderr"
-      - name: Register Nomad check on clients
-        consul:
-          check_name: Nomad Check
-          http: http://{{ inventory_hostname }}:4646/v1/nodes
-          interval: 30s
+      # - name: Register Nomad check on clients
+      #   consul:
+      #     check_name: Nomad Check
+      #     http: http://{{ inventory_hostname }}:4646/v1/nodes
+      #     interval: 30s

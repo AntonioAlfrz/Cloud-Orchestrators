@@ -15,7 +15,6 @@ job "jenkins" {
       delay    = "25s"
       mode     = "delay"
     }
-
     task "jenkins" {
       driver = "docker"
       config {
@@ -24,7 +23,7 @@ job "jenkins" {
           http = 8080
           jnlp = 50000
         }
-        dns_servers = ["172.16.0.4","172.16.0.5"]
+        dns_servers = ["8.8.8.8","8.8.4.4","172.16.0.4","172.16.0.5"]
       }
       service {
         name = "jenkins"
