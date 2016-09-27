@@ -29,8 +29,8 @@ job "Spoti-api" {
   			}
   		}
       env{
-        AZURE_STORAGE_ACCOUNT="cdps"
-        AZURE_STORAGE_ACCESS_KEY="6VyhZ2Mqt1kgGjJEFlh7hqPd/v1AEDCX+9/tN1IoOsZsX4VmZC8C8dwoaCGPjwRl6bGSRNQiXpfnwCxK4IGhjg=="
+        AZURE_STORAGE_ACCOUNT=""
+        AZURE_STORAGE_ACCESS_KEY=""
       }
   		service {
 				name = "api"

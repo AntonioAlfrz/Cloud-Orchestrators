@@ -27,7 +27,7 @@
   },
   "env": {
     "APIURL": "1.1.1.1:5001",
-    "MONGOURL": "mongodbcdps.westeurope.cloudapp.azure.com:27017",
+    "MONGOURL": "MONGO_URL:27017",
     "PORT": "8080"
   },
   "healthChecks": [
@@ -44,7 +44,7 @@
   ],
   "labels": {
     "HAPROXY_GROUP": "external",
-    "HAPROXY_0_VHOST": "azurecsdcosagents.westeurope.cloudapp.azure.com",
+    "HAPROXY_0_VHOST": "ENTER_URL",
     "HAPROXY_0_MODE": "http"
   },
   "portDefinitions": [

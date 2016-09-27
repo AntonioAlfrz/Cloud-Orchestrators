@@ -32,7 +32,7 @@ job "Spoti-web" {
       }
 			env{
         APIURL="haproxy-api.service.consul:3000"
-				MONGOURL="mongodbcdps.westeurope.cloudapp.azure.com:27017"
+				MONGOURL="MONGO_URL:27017"
       }
       service {
 				name = "web"
